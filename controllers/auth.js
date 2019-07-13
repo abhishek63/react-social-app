@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 exports.signUp = async (req, res) => {
   //if user already exits
@@ -18,9 +19,40 @@ exports.signUp = async (req, res) => {
       });
     }
     res.status(200).json({
-      message: "user created" ,
+      message: "user created",
       data
     });
   });
 };
 
+exports.signIn = (req, res) => {
+  
+  const { email, password } = req.body;
+  User.findOne({ email }, (error, user) => {
+    //if user exit then authenticate
+    if (error || !user) {
+      return res.json({
+        error: "user with this email not registered"
+      });
+    }
+
+    if (!user.authenticate(password)) {
+      return res.json({
+        error: "Email and password not matched"
+      });
+    }
+
+    // generate token
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+
+    // cookie parser
+    res.cookie("token", token, { expire: new Date() + 9999 });
+
+    //destructring the user
+    const { _id, name, email } = user;
+    return res.json({
+      token,
+      user: { _id, name, email }
+    });
+  });
+};

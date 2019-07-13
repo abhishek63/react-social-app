@@ -32,11 +32,22 @@ userSchema
     this.salt = uuidv1(); // ⇨ '45745c60-7b1a-11e8-9c9c-2d42b21b1a3e'
 
     // creating password in hashed format
-    this.hashed_password = crypto
+    this.hashed_password = this.encryptPassword(password);
+  })
+  .get();
+
+userSchema.methods = {
+
+  encryptPassword: function(password) {
+    return crypto
       .createHmac("sha1", this.salt)
       .update(password)
       .digest("hex");
-  })
-  .get();
+  },
+
+  authenticate : function(plainText){
+      return this.encryptPassword(plainText) === this.hashed_password;
+  }
+};
 
 module.exports = mongoose.model("User", userSchema);
