@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 const app = express();
 dotenv.config();
+app.use(bodyParser.json());
 
 //database connecting
 mongoose
@@ -15,9 +16,9 @@ mongoose.connection.on("error", err => {
   console.log("Db connection error = " + err.message);
 });
 
-app.get("/api", function(req, res) {
-  res.send("Hello world");
-});
+//routes middleware
+const postRoutes = require('./routes/post');
+app.use('/api',postRoutes);
 
 app.listen(5000, function() {
   console.log("server is running");
