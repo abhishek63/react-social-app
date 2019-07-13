@@ -19,7 +19,9 @@ mongoose.connection.on("error", err => {
 
 //routes middleware
 const postRoutes = require("./routes/post");
+const authRoutes = require("./routes/auth");
 app.use("/api", postRoutes);
+app.use("/api", authRoutes);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
