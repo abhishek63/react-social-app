@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const {ObjectId} = mongoose.Schema;
 
 const postSchema = new mongoose.Schema({
   title: {
@@ -12,6 +13,18 @@ const postSchema = new mongoose.Schema({
     required:
       "Post body field is required and minimun character allowed is six",
     maxlength: 2000
+  },
+  photo: {
+    type: Buffer,
+    contentType: String
+  },
+  postedBy: {
+    type: ObjectId,
+    ref: "User"
+  },
+  created: {
+    type: Date,
+    ref: Date.now
   }
 });
 
