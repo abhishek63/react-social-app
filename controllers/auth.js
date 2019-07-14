@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const expressJwt = require("express-jwt");
 
 exports.signUp = async (req, res) => {
   //if user already exits
@@ -26,7 +27,6 @@ exports.signUp = async (req, res) => {
 };
 
 exports.signIn = (req, res) => {
-  
   const { email, password } = req.body;
   User.findOne({ email }, (error, user) => {
     //if user exit then authenticate
@@ -57,10 +57,14 @@ exports.signIn = (req, res) => {
   });
 };
 
-//signout 
-exports.signOut = (req,res)=>{
-    res.clearCookie("token");
-    res.json({
-        message : "signout success!!"
-    })
-}
+//signout
+exports.signOut = (req, res) => {
+  res.clearCookie("token");
+  res.json({
+    message: "signout success!!"
+  });
+};
+
+//require sign in middleware for authorizing the user
+
+exports.requireSignIn = expressJwt({ secret: process.env.JWT_SECRET });

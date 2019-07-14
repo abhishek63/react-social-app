@@ -24,6 +24,11 @@ const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
 app.use("/api", postRoutes);
 app.use("/api", authRoutes);
+app.use(function(err, req, res, next) {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).json({ error: "unauthorized user " });
+  }
+});
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
