@@ -2,12 +2,32 @@ const Post = require("../models/post");
 const formidable = require("formidable");
 const fs = require("fs");
 
-exports.getPosts = (req, res) => {
-  Post.find().then(data => {
-    return res.json({
-      data
+//findPost by particular id
+module.exports.findPostById = (req, res, next) => {
+  console.log("authoooo",req.auth)
+  postId = req.params.postId;
+  Post.findById({ _id: postId })
+    .populate("postedBy", "_id name")
+    .exec((error, post) => {
+      if (error || !post) {
+        return res.json({
+          error: "Post not found"
+        });
+      }
+
+      req.post = post;
+      next();
     });
-  });
+};
+
+exports.getPosts = (req, res) => {
+  Post.find()
+    .populate("postedBy", "_id name")
+    .then(data => {
+      return res.json({
+        data
+      });
+    });
 };
 
 exports.createPost = (req, res) => {
@@ -39,13 +59,43 @@ exports.createPost = (req, res) => {
 //get post by logged in user
 
 module.exports.getPostByUser = (req, res) => {
-  Post.find({postedBy : req.profile._id})
-  .populate("postedBy","_id name")
-  .exec((err,posts)=>{
-    if(err){
-      return res.json({message : err})
+  Post.find({ postedBy: req.profile._id })
+    .populate("postedBy", "_id name")
+    .exec((err, posts) => {
+      if (err) {
+        return res.json({ message: err });
+      }
+
+      res.json(posts);
+    });
+};
+
+//delete post
+module.exports.deletePost = (req, res) => {
+  console.log("authoooo",req.auth)
+  post = req.post;
+  post.remove(error => {
+    if (error) {
+      return res.json({
+        error
+      });
     }
 
-    res.json(posts);
-  })
+    res.json({
+      message: "post delete successfully"
+    });
+  });
+};
+
+//for checking authorized user
+
+exports.isPoster = (req, res, next) => {
+  console.log(req.auth._id)
+  let authorizedUser =
+    req.post && req.auth && req.post.postedBy._id == req.auth._id;
+  console.log("isposter", authorizedUser);
+  if (!authorizedUser) {
+    return res.json({ message: "user not authorized for accessing post" });
+  }
+  next();
 };

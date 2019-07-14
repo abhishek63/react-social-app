@@ -1,6 +1,9 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
+const dotenv = require('dotenv');
+
+dotenv.config()
 
 exports.signUp = async (req, res) => {
   //if user already exits
