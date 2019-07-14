@@ -67,4 +67,4 @@ exports.signOut = (req, res) => {
 
 //require sign in middleware for authorizing the user
 
-exports.requireSignIn = expressJwt({ secret: process.env.JWT_SECRET });
+exports.requireSignIn = expressJwt({ secret: process.env.JWT_SECRET,userProperty:"auth" });
