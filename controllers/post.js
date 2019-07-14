@@ -1,6 +1,8 @@
 const Post = require("../models/post");
 const formidable = require("formidable");
 const fs = require("fs");
+const _ = require("lodash");
+
 
 //findPost by particular id
 module.exports.findPostById = (req, res, next) => {
@@ -86,6 +88,21 @@ module.exports.deletePost = (req, res) => {
     });
   });
 };
+
+//update post
+module.exports.updatePost = (req,res)=>{
+  let post = req.post;
+  post = _.extend(post,req.body);
+  post.save((error)=>{
+      if(error){
+          return res.json({error})
+      }
+
+      res.json({
+          post
+      })
+  })
+}
 
 //for checking authorized user
 
