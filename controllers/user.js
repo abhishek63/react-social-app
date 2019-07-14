@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const _ = require("lodash");
 
 module.exports.findUserById = (req, res, next) => {
   userId = req.params.userId;
@@ -36,6 +37,39 @@ module.exports.getAllUsers = (req,res)=>{
 //find single user
 module.exports.getUser = (req,res)=>{
     return res.json(req.profile);
+}
+
+//update user
+module.exports.updateUser = (req,res)=>{
+    console.log("req.profile",req.profile)
+    let user = req.profile;
+    user = _.extend(user,req.body);
+    console.log("xxxxxxxxxx")
+    user.save((error)=>{
+        if(error){
+            return res.json({error})
+        }
+
+        res.json({
+            user
+        })
+    })
+}
+
+//delete user
+module.exports.deleteUser = (req,res)=>{
+    user = req.profile;
+    user.remove((error)=>{
+        if(error){
+            return res.json({
+                error
+            })
+        }
+
+        res.json({
+            message : "user delete successfully"
+        })
+    })
 }
 
 module.exports.hasAuthorization = (req,res,next)=>{
