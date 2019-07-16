@@ -1,16 +1,16 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
-dotenv.config()
+dotenv.config();
 
 exports.signUp = async (req, res) => {
   //if user already exits
   const userExits = await User.findOne({ email: req.body.email });
   if (userExits) {
-    return res.json({
-      message: "user already exits!"
+    return res.status(403).json({
+      error: "user already exits!"
     });
   }
 
@@ -19,12 +19,11 @@ exports.signUp = async (req, res) => {
   user.save((error, data) => {
     if (error) {
       return res.status(400).json({
-        Error: "Error in registering user"
+        error: "error in registering user"
       });
     }
     res.status(200).json({
-      message: "user created",
-      data
+      message: "Signup success ! please login..."
     });
   });
 };
@@ -34,7 +33,7 @@ exports.signIn = (req, res) => {
   User.findOne({ email }, (error, user) => {
     //if user exit then authenticate
     if (error || !user) {
-      return res.json({
+      return res.status(401).json({
         error: "user with this email not registered"
       });
     }
@@ -70,4 +69,7 @@ exports.signOut = (req, res) => {
 
 //require sign in middleware for authorizing the user
 
-exports.requireSignIn = expressJwt({ secret: process.env.JWT_SECRET,userProperty:"auth" });
+exports.requireSignIn = expressJwt({
+  secret: process.env.JWT_SECRET,
+  userProperty: "auth"
+});

@@ -25,26 +25,28 @@ export class Contact extends Component {
                   </li>
                 </ul>
               </span>
+              <ul className="list-unstyled">
               <li>
                 <a href="https://twitter.com/kumargolu63">
-                  <i class="fa fa-twitter">Twitter</i>
+                  <i class="fab fa-twitter"> Twitter</i>
                 </a>
               </li>
               <li>
                 <a href="http://facebook.com/kumargolu63">
-                  <i class="fa fa-facebook">FaceBook</i>
+                  <i class="fab fa-facebook"> FaceBook</i>
                 </a>
               </li>
               <li>
                 <a href="https://www.linkedin.com/in/abhishekhit/">
-                  <i class="fa fa-linkedin">Linkedin</i>
+                  <i class="fab fa-linkedin"> Linkedin</i>
                 </a>
               </li>
               <li class="last-item">
                 <a href="https://github.com/abhishek63">
-                  <i class="fa fa-github-alt">Github</i>
+                <i class="fab fa-github"> Github</i>
                 </a>
               </li>
+              </ul>
             </div>
           </div>
         </div>
