@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import { signout, isAuthenticated } from "../auth/index";
 
 export class NavBar extends Component {
   constructor(props) {
@@ -10,27 +11,6 @@ export class NavBar extends Component {
   isActive = (history, path) => {
     if (history.location.pathname === path) return { color: "red" };
     else return { color: "white" };
-  };
-
-  //signout
-
-  signout = next => {
-    localStorage.removeItem("token");
-    next();
-    return fetch("http://localhost:5000/api/signout", {
-      method: "GET"
-    })
-      .then(response => {
-        console.log(response, "response");
-        return response.json();
-      })
-      .catch(err => console.log(err));
-  };
-
-  isAuthenticated = () => {
-    if (localStorage.getItem("token"))
-      return JSON.parse(localStorage.getItem("token"));
-    else return false;
   };
 
   render() {
@@ -85,7 +65,7 @@ export class NavBar extends Component {
             </ul>
             <span className="navbar-text white-text">
               <ul className="navbar-nav mr-auto">
-                {!this.isAuthenticated() ? (
+                {!isAuthenticated() ? (
                   <>
                     <li className="nav-item">
                       <Link
@@ -114,14 +94,14 @@ export class NavBar extends Component {
                         style={this.isActive(history, "/profile")}
                         to="/signin"
                       >
-                        Hi,{this.isAuthenticated().user.name}
+                        Hi,{isAuthenticated().user.name}
                       </Link>
                     </li>
                     <li className="nav-item">
                       <a
                         className="nav-link active"
                         style={this.isActive(history, "/signin")}
-                        onClick={() => this.signout(() => history.push("/"))}
+                        onClick={() => signout(() => history.push("/"))}
                       >
                         Signout
                       </a>
