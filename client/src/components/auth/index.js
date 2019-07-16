@@ -1,5 +1,5 @@
 export const signup = user => {
-  return fetch(`http://localhost:5000/api/signup`, {
+  return fetch(`/api/signup`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -14,7 +14,7 @@ export const signup = user => {
 };
 
 export const signin = user => {
-  return fetch(`http://localhost:5000/api/signin`, {
+  return fetch(`/api/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -31,7 +31,7 @@ export const signin = user => {
 export const signout = next => {
   localStorage.removeItem("token");
   next();
-  return fetch("http://localhost:5000/api/signout", {
+  return fetch("/api/signout", {
     method: "GET"
   })
     .then(response => {
