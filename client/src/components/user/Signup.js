@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { signup } from "../auth/index";
 
 export class Signup extends Component {
@@ -8,14 +9,15 @@ export class Signup extends Component {
       name: "",
       email: "",
       password: "",
-      error: ""
+      error: "",
+      open: false
     };
   }
 
   //handling the input field and set the value in the state of component
   handleChange = name => event => {
     this.setState({
-      error :"",
+      error: "",
       [name]: event.target.value
     });
   };
@@ -41,7 +43,8 @@ export class Signup extends Component {
             name: "",
             email: "",
             password: "",
-            error: ""
+            error: "",
+            open: true
           });
       })
       .catch();
@@ -50,10 +53,15 @@ export class Signup extends Component {
   render() {
     return (
       <div className="container mt-5 mb-5">
-        <h1>Registration</h1>
+        <h1 className="font-weight-bold">Registration</h1>
         {/* displaying error message */}
         <div className={this.state.error ? "alert alert-danger" : "none"}>
           {this.state.error}
+        </div>
+        {/* displaying sign success message */}
+        <div className="alert alert-success" style={{"display" : this.state.open ? "" : "none"}}>
+          Account is successfully created
+          please <Link to="/signin" className="alert-link">signin</Link>
         </div>
         <form>
           <div className="form-group">

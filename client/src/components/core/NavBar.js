@@ -92,9 +92,9 @@ export class NavBar extends Component {
                       <Link
                         className="nav-link active"
                         style={this.isActive(history, "/profile")}
-                        to="/signin"
+                        to={`/user/${isAuthenticated().user._id}`}
                       >
-                        Hi,{isAuthenticated().user.name}
+                        Hi, {isAuthenticated().user.name}
                       </Link>
                     </li>
                     <li className="nav-item">

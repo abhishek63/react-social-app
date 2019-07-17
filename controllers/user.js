@@ -20,16 +20,15 @@ module.exports.findUserById = (req, res, next) => {
 
 //get all users
 module.exports.getAllUsers = (req,res)=>{
-    User.find((error,users)=>{
+    User.find()
+    .select("_id name email created")
+    .exec((error,users)=>{
         if(error){
             return res.json({
                 error
             })
         }
-
-        res.json({
-            users
-        })
+        res.json(users)
 
     })
 }
@@ -41,10 +40,10 @@ module.exports.getUser = (req,res)=>{
 
 //update user
 module.exports.updateUser = (req,res)=>{
-    console.log("req.profile",req.profile)
+    //console.log("req.profile",req.profile)
     let user = req.profile;
     user = _.extend(user,req.body);
-    console.log("xxxxxxxxxx")
+    //console.log("xxxxxxxxxx")
     user.save((error)=>{
         if(error){
             return res.json({error})
