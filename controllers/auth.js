@@ -39,7 +39,7 @@ exports.signIn = (req, res) => {
     }
 
     if (!user.authenticate(password)) {
-      return res.json({
+      return res.status(403).json({
         error: "Email and password not matched"
       });
     }

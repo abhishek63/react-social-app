@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { isAuthenticated } from "../auth";
 import DeleteUser from "./DeleteUser";
 
@@ -62,8 +62,8 @@ export class Profile extends Component {
                 <img
                   src="https://mdbootstrap.com/img/Photos/Avatars/img(31).jpg"
                   class="img-fluid z-depth-1 rounded-circle"
-                  alt="Responsive image"
                   width="150px"
+                  alt="img"
                 />
               </div>
             </div>
@@ -74,8 +74,13 @@ export class Profile extends Component {
                 for calling extra attention to featured content or information.
               </p>
               <div className="row">
-                <button className="btn btn-success">Edit Profile</button>
-                <DeleteUser userId={this.state.user._id}/>
+                <Link
+                  to={`/user/edit/${this.state.user._id}`}
+                  className="btn btn-success"
+                >
+                  Edit Profile
+                </Link>
+                <DeleteUser userId={this.state.user._id} />
               </div>
             </div>
           </div>

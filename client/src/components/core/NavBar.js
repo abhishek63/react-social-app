@@ -44,6 +44,16 @@ export class NavBar extends Component {
                   Home
                 </Link>
               </li>
+
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  style={this.isActive(history, "/users")}
+                  to="/users"
+                >
+                  Pepole
+                </Link>
+              </li>
               <li className="nav-item">
                 <Link
                   className="nav-link"
@@ -51,15 +61,6 @@ export class NavBar extends Component {
                   to="/contact"
                 >
                   Contact
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  style={this.isActive(history, "/about")}
-                  to="/about"
-                >
-                  About
                 </Link>
               </li>
             </ul>
@@ -91,7 +92,7 @@ export class NavBar extends Component {
                     <li className="nav-item">
                       <Link
                         className="nav-link active"
-                        style={this.isActive(history, "/profile")}
+                        style={this.isActive(history, `/user/${isAuthenticated().user._id}`)}
                         to={`/user/${isAuthenticated().user._id}`}
                       >
                         Hi, {isAuthenticated().user.name}

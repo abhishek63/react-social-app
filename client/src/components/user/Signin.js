@@ -42,7 +42,6 @@ export class Signin extends Component {
     //now call the backend api
     signin(user)
       .then(data => {
-        console.log("signinii", data);
         if (data.error) this.setState({ error: data.error });
         else {
           //authenticate
@@ -58,44 +57,48 @@ export class Signin extends Component {
           error: ""
         });
       })
-      .catch();
   };
 
   render() {
-    if (this.state.redirectToHomePage) 
-        return <Redirect to="/" />;
-    
+    if (this.state.redirectToHomePage) return <Redirect to="/" />;
+
     return (
       <div className="container mt-5 mb-5">
-        <h1>Sign In</h1>
-        {/* displaying error message */}
-        <div className={this.state.error ? "alert alert-danger" : "none"}>
-          {this.state.error}
+        <div className="row">
+          <div className="col-sm-4" />
+          <div className="col-sm-4 card p-4">
+            {" "}
+            <h1>Sign In</h1>
+            {/* displaying error message */}
+            <div className={this.state.error ? "alert alert-danger" : "none"}>
+              {this.state.error}
+            </div>
+            <form>
+              <div className="form-group">
+                <label className="text-muted">Email</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  onChange={this.handleChange("email")}
+                  value={this.state.email}
+                />
+              </div>
+              <div className="form-group">
+                <label className="text-muted">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  onChange={this.handleChange("password")}
+                  value={this.state.password}
+                />
+              </div>
+              <button className="btn btn-primary" onClick={this.onSubmit}>
+                Sign In
+              </button>
+            </form>
+          </div>
+          <div className="col-sm-4" />
         </div>
-
-        <form>
-          <div className="form-group">
-            <label className="text-muted">Email</label>
-            <input
-              type="text"
-              className="form-control"
-              onChange={this.handleChange("email")}
-              value={this.state.email}
-            />
-          </div>
-          <div className="form-group">
-            <label className="text-muted">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              onChange={this.handleChange("password")}
-              value={this.state.password}
-            />
-          </div>
-          <button className="btn btn-primary" onClick={this.onSubmit}>
-            Sign In
-          </button>
-        </form>
       </div>
     );
   }
