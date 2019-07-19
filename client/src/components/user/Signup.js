@@ -9,6 +9,7 @@ export class Signup extends Component {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
       error: "",
       open: false
     };
@@ -34,20 +35,66 @@ export class Signup extends Component {
       email,
       password
     };
+    //check validation
+    if (this.validForm()) {
+      signup(user)
+        .then(data => {
+          if (data.error) this.setState({ error: data.error });
+          else
+            this.setState({
+              name: "",
+              email: "",
+              password: "",
+              error: "",
+              open: true
+            });
+        })
+        .catch();
+    }
+
     //now call the backend api
-    signup(user)
-      .then(data => {
-        if (data.error) this.setState({ error: data.error });
-        else
-          this.setState({
-            name: "",
-            email: "",
-            password: "",
-            error: "",
-            open: true
-          });
-      })
-      .catch();
+  };
+
+  //client side validation
+  validForm = () => {
+    const { name, email, password, confirmPassword } = this.state;
+    var emailRegex = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/;
+    //Password matching expression. Password must be at least 4 characters, no more than 8 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit.
+    var passRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}/;
+    var nameRegex = /[A-Za-z\\s]{3,30}/;
+
+    if (
+      name.length === 0 ||
+      email.length === 0 ||
+      password.length === 0 ||
+      confirmPassword.length === 0
+    ) {
+      this.setState({ error: "All fields are required" });
+      return false;
+    } else if (!nameRegex.test(name)) {
+      this.setState({
+        error:
+          "Name must be letter only and minimum 3 character and maximum 30 character required"
+      });
+      return false;
+    } else if (!emailRegex.test(email)) {
+      this.setState({
+        error: "Please write proper email format"
+      });
+      return false;
+    } else if (!passRegex.test(password)) {
+      this.setState({
+        error:
+          "Password must be at least 4 characters, no more than 8 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit."
+      });
+      return false;
+    } else if (!(password === confirmPassword)) {
+      this.setState({
+        error: "password and confirm password not matched"
+      });
+      return false;
+    }
+    return true;
   };
 
   render() {
@@ -110,6 +157,16 @@ export class Signup extends Component {
                           placeholder="Enter password"
                           onChange={this.handleChange("password")}
                           value={this.state.password}
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input
+                          class="form-control form-control-lg"
+                          type="password"
+                          placeholder="Confirm password"
+                          onChange={this.handleChange("confirmPassword")}
+                          value={this.state.confirmPassword}
                         />
                       </div>
                       <div class="text-center mt-3">
