@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import DefaultImage from '../images/avatar.png'
+import DefaultImage from "../images/avatar.png";
+import { showUsers } from "./apiUser";
 
 export class People extends Component {
   constructor() {
@@ -12,22 +13,15 @@ export class People extends Component {
 
   componentDidMount() {
     //find all the users
-
-    fetch(`/api/users`, {
-      method: "GET"
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        if (data.error) {
-        } else {
-          console.log(data);
-          this.setState({
-            users: data
-          });
-        }
-      });
+    showUsers().then(data => {
+      if (data.error) {
+      } else {
+        console.log(data);
+        this.setState({
+          users: data
+        });
+      }
+    });
   }
   render() {
     return (

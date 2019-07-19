@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { isAuthenticated } from "../auth";
+import {viewUser} from '../user/apiUser'
 import DeleteUser from "./DeleteUser";
 
 export class Profile extends Component {
@@ -15,39 +16,35 @@ export class Profile extends Component {
   componentDidMount() {
     //fetch user details
     let userId = this.props.match.params.userId;
-    this.init(userId);
+    let token = isAuthenticated().token;
+
+    console.log("kamina",userId,token)
+    viewUser(userId,token).then(data=>{
+      if(data.error){
+        console.log(data.error)
+      }
+      else{
+        this.setState({
+          user : data
+        })
+      }
+    });
   }
 
   componentWillReceiveProps(props) {
     let userId = props.match.params.userId;
-    this.init(userId);
-  }
-
-  init = userId => {
-    return fetch(`/api/user/${userId}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${isAuthenticated().token}`
+    let token = isAuthenticated().token;
+    viewUser(userId,token).then(data=>{
+      if(data.error){
+        console.log(data.error)
       }
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        if (data.error) {
-          this.setState({
-            redirectToHome: true
-          });
-        } else {
-          console.log(data);
-          this.setState({
-            user: data
-          });
-        }
-      });
-  };
+      else{
+        this.setState({
+          user : data
+        })
+      }
+    });
+  }
 
   render() {
     if (this.state.redirectToHome) {

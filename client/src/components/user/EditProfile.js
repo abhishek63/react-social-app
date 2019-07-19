@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { viewUser } from "./apiUser";
+import { isAuthenticated } from "../auth";
 
 export class EditProfile extends Component {
   constructor() {
@@ -7,6 +9,18 @@ export class EditProfile extends Component {
         
     };
   }
+
+  componentDidMount(){
+    //fetch user details
+    let userId = this.props.match.params.userId;
+    let token = isAuthenticated().token;
+    console.log("ddddd",userId,token)
+    viewUser(userId,token)
+    .then(data=>{
+      console.log(data);
+    })
+  }
+
   render() {
     return (
       <div class="container mt-2">

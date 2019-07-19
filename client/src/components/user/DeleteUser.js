@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { isAuthenticated, signout } from "../auth/index";
+import {deleteAccount } from "./apiUser";
 
 export class DeleteUser extends Component {
   constructor(){
@@ -14,29 +15,20 @@ export class DeleteUser extends Component {
     //extract token
     let token = isAuthenticated().token;
     let userId = this.props.userId;
-    fetch(`/api/user/${userId}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+    deleteAccount(userId,token)
+    .then(data => {
+      if (data.error) {
+        console.log("error", data.error);
+      } else {
+        //signout
+        signout(()=>console.log("user is deleted"))
+        //redirect
+        this.setState({
+          redirectToHome : true
+        })
       }
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        if (data.error) {
-          console.log("error", data.error);
-        } else {
-          //signout
-          signout(()=>console.log("user is deleted"))
-          //redirect
-          this.setState({
-            redirectToHome : true
-          })
-        }
-      });
+    });
+      
   };
 
   //prompting user
