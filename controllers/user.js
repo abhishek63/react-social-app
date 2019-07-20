@@ -7,7 +7,6 @@ module.exports.findUserById = (req, res, next) => {
   userId = req.params.userId;
   console.log("user id hai",userId)
   User.findById({ _id: userId })
-    .select("_id name email")
     .exec((error, user) => {
       if (error || !user) {
         return res.json({
@@ -16,6 +15,7 @@ module.exports.findUserById = (req, res, next) => {
       }
 
       req.profile = user;
+      console.log("abhi tak yhi hai")
       next();
     });
 };
@@ -99,3 +99,11 @@ module.exports.hasAuthorization = (req,res,next)=>{
         })
     }
 }
+
+exports.userPhoto = (req, res, next) => {
+    if (req.profile.photo.data) {
+        res.set(("Content-Type", req.profile.photo.contentType));
+        return res.send(req.profile.photo.data);
+    }
+    next();
+};

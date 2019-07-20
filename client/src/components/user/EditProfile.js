@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { viewUser, update } from "./apiUser";
 import { isAuthenticated } from "../auth";
+import DefaultImage from "../images/avatar.png";
+
 
 export class EditProfile extends Component {
   constructor() {
     super();
     this.state = {
+      id:"",
       name: "",
       email: "",
       photo: "",
@@ -24,6 +27,7 @@ export class EditProfile extends Component {
     viewUser(userId, token).then(data => {
       console.log(data);
       this.setState({
+        id:data._id,
         name: data.name,
         email: data.email
       });
@@ -57,7 +61,11 @@ export class EditProfile extends Component {
   };
 
   render() {
-    const { name, email, photo } = this.state;
+    const { name, email, id } = this.state;
+    const photoUrl = id
+      ? `http://localhost:5000/api/user/photo/${id}`
+      : DefaultImage;
+
     return (
       <div class="container mt-2">
         <div class="row">
@@ -67,7 +75,7 @@ export class EditProfile extends Component {
               <div class="view view-cascade overlay">
                 <img
                   class="card-img-top"
-                  src="https://mdbootstrap.com/img/Photos/Others/photo6.jpg"
+                  src={photoUrl}
                   alt="Card imagee cap"
                 />
                 <a href="#!">
@@ -79,7 +87,7 @@ export class EditProfile extends Component {
               <div class="card-body card-body-cascade text-center">
                 {/* <!-- Title --> */}
                 <h4 class="card-title">
-                  <strong>Alison Belmont</strong>
+                  <strong>{this.state.name}</strong>
                 </h4>
                 {/* <!-- Subtitle --> */}
                 <h5 class="blue-text pb-2">

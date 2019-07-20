@@ -30,8 +30,15 @@ export class Signup extends Component {
 
     //extracting the value from state
     const { name, email, password } = this.state;
+    const nameTitle = name
+      .split(" ")
+      .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+      .join(" ");
+
+      console.log(nameTitle)
+
     const user = {
-      name,
+      name:nameTitle,
       email,
       password
     };
@@ -190,3 +197,9 @@ export class Signup extends Component {
 }
 
 export default Signup;
+
+function toNameCase(str) {
+  return str.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}

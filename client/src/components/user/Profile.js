@@ -3,6 +3,8 @@ import { Redirect, Link } from "react-router-dom";
 import { isAuthenticated } from "../auth";
 import {viewUser} from '../user/apiUser'
 import DeleteUser from "./DeleteUser";
+import DefaultImage from "../images/avatar.png";
+
 
 export class Profile extends Component {
   constructor() {
@@ -47,6 +49,15 @@ export class Profile extends Component {
   }
 
   render() {
+    let userId = this.props.match.params.userId;
+
+    const photoUrl = userId
+    ? `${
+          process.env.REACT_APP_API_URL
+      }/api/user/photo/${userId}`
+    : DefaultImage;
+
+
     if (this.state.redirectToHome) {
       return <Redirect to="/signin" />;
     }
@@ -57,18 +68,20 @@ export class Profile extends Component {
             <div className="col-sm-4">
               <div className="text-center">
                 <img
-                  src="https://mdbootstrap.com/img/Photos/Avatars/img(31).jpg"
+                  src={photoUrl}
                   class="img-fluid z-depth-1 rounded-circle"
-                  width="150px"
+                  width="200px"
+                  height="200px"
                   alt="img"
                 />
               </div>
             </div>
             <div className="col-sm-8">
               <h2>{this.state.user.name}</h2>
+              <h5>{this.state.user.email}</h5>
               <p class="lead">
-                This is a simple hero unit, a simple jumbotron-style component
-                for calling extra attention to featured content or information.
+                frontend programmer
+
               </p>
               <div className="row">
                 <Link

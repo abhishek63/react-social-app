@@ -32,7 +32,7 @@ export class People extends Component {
               <div className="card testimonial-card m-2 p-2">
                 <div class="avatar mx-auto white">
                   <img
-                    style={{ height: "200px", width: "auto" }}
+                    style={{ height: "100px", width: "auto" }}
                     src={DefaultImage}
                     className="rounded-circle"
                     alt={user.name}
