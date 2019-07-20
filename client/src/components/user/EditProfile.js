@@ -1,27 +1,63 @@
 import React, { Component } from "react";
-import { viewUser } from "./apiUser";
+import { viewUser, update } from "./apiUser";
 import { isAuthenticated } from "../auth";
 
 export class EditProfile extends Component {
   constructor() {
     super();
     this.state = {
-        
+      name: "",
+      email: "",
+      photo: "",
+      error: "",
+      fileSize: 0
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
+    this.formData = new FormData();
+    //formData.set()
     //fetch user details
     let userId = this.props.match.params.userId;
     let token = isAuthenticated().token;
-    console.log("ddddd",userId,token)
-    viewUser(userId,token)
-    .then(data=>{
+    console.log("ddddd", userId, token);
+    viewUser(userId, token).then(data => {
       console.log(data);
-    })
+      this.setState({
+        name: data.name,
+        email: data.email
+      });
+    });
   }
 
+  //handling the input field and set the value in the state of component
+  handleChange = name => event => {
+    let value = name === "photo" ? event.target.files[0] : event.target.value;
+    let fileSize = name === "photo" ? event.target.files[0].size : 0;
+    this.formData.set(name, value);
+    this.setState({
+      error: "",
+      [name]: value,
+      fileSize
+    });
+  };
+
+  //handling the submission button
+  handleSubmit = event => {
+    event.preventDefault();
+
+    let userId = this.props.match.params.userId;
+    let token = isAuthenticated().token;
+
+    console.log("hello sirji ", this.formData);
+
+    update(userId, token, this.formData).then(data => {
+      console.log("hhhh", data);
+    });
+  };
+
   render() {
+    const { name, email, photo } = this.state;
     return (
       <div class="container mt-2">
         <div class="row">
@@ -59,20 +95,18 @@ export class EditProfile extends Component {
               <form>
                 <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">
-                    First name
+                    Name
                   </label>
                   <div class="col-lg-9">
-                    <input class="form-control" type="text" value="Mark" />
+                    <input
+                      class="form-control"
+                      type="text"
+                      onChange={this.handleChange("name")}
+                      value={name}
+                    />
                   </div>
                 </div>
-                <div class="form-group row">
-                  <label class="col-lg-3 col-form-label form-control-label">
-                    Last name
-                  </label>
-                  <div class="col-lg-9">
-                    <input class="form-control" type="text" value="Jhonsan" />
-                  </div>
-                </div>
+
                 <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">
                     Email
@@ -81,7 +115,8 @@ export class EditProfile extends Component {
                     <input
                       class="form-control"
                       type="email"
-                      value="mark@example.com"
+                      onChange={this.handleChange("email")}
+                      value={email}
                     />
                   </div>
                 </div>
@@ -90,7 +125,12 @@ export class EditProfile extends Component {
                     Change profile
                   </label>
                   <div class="col-lg-9">
-                    <input class="form-control" type="file" />
+                    <input
+                      class="form-control"
+                      type="file"
+                      accept="image/*"
+                      onChange={this.handleChange("photo")}
+                    />
                   </div>
                 </div>
                 <div class="form-group row">
@@ -182,6 +222,7 @@ export class EditProfile extends Component {
                       type="button"
                       class="btn btn-primary"
                       value="Save Changes"
+                      onClick={this.handleSubmit}
                     />
                   </div>
                 </div>

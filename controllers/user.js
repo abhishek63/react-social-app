@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const _ = require("lodash");
+const formidable = require("formidable");
+const fs = require("fs");
 
 module.exports.findUserById = (req, res, next) => {
   userId = req.params.userId;
@@ -39,20 +41,37 @@ module.exports.getUser = (req,res)=>{
 }
 
 //update user
-module.exports.updateUser = (req,res)=>{
-    //console.log("req.profile",req.profile)
-    let user = req.profile;
-    user = _.extend(user,req.body);
-    //console.log("xxxxxxxxxx")
-    user.save((error)=>{
-        if(error){
-            return res.json({error})
-        }
+module.exports.updateUser = (req,res,next)=>{
 
-        res.json({
-            user
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true
+    form.parse(req , (err,fields,files)=>{
+        if(err){
+            return res.status(400).json({
+                error : "photo not updated"
+            })
+        }
+        //update user
+        let user = req.profile
+        user = _.extend(user,fields);
+        user.updated = Date.now();
+
+        if(files.photo){
+            user.photo.data = fs.readFileSync(files.photo.path)
+            user.photo.contentType = files.photo.type
+        }
+        user.save((error,result)=>{
+            if(error){
+                return res.status(400).json({
+                    error 
+                })
+            }
+            user.hashed_password = undefined;
+            user.salt = undefined;
+            res.json(user)
         })
     })
+    
 }
 
 //delete user

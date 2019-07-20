@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/users", getAllUsers); //get all users
 router.get("/user/:userId", requireSignIn, getUser); //get particular user
-router.put("/user/:userId", updateUser); //update user profile
+router.put("/user/:userId", requireSignIn, updateUser); //update user profile
 router.delete("/user/:userId", deleteUser); //delete user 
 
 router.param("userId", findUserById);
