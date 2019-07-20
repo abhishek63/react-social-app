@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const uuidv1 = require("uuid/v1");
 const crypto = require("crypto");
+const { ObjectId } = mongoose.Schema;
 
 const userSchema = mongoose.Schema({
   name: {
@@ -23,11 +24,13 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  photo :{
-    data : Buffer,
-    contentType : String
+  photo: {
+    data: Buffer,
+    contentType: String
   },
-  updated: Date
+  updated: Date,
+  following: [{ type: ObjectId, ref: "User" }],
+  followers: [{ type: ObjectId, ref: "User" }]
 });
 
 userSchema
@@ -42,7 +45,6 @@ userSchema
   .get();
 
 userSchema.methods = {
-
   encryptPassword: function(password) {
     return crypto
       .createHmac("sha1", this.salt)
@@ -50,8 +52,8 @@ userSchema.methods = {
       .digest("hex");
   },
 
-  authenticate : function(plainText){
-      return this.encryptPassword(plainText) === this.hashed_password;
+  authenticate: function(plainText) {
+    return this.encryptPassword(plainText) === this.hashed_password;
   }
 };
 
