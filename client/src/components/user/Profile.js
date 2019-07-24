@@ -5,6 +5,7 @@ import { viewUser } from "../user/apiUser";
 import DeleteUser from "./DeleteUser";
 import DefaultImage from "../images/avatar.png";
 import FollowUnfollowButton from "./FollowUnfollowButton";
+import ProfileTabs from "./ProfileTabs";
 
 export class Profile extends Component {
   constructor() {
@@ -22,7 +23,7 @@ export class Profile extends Component {
   checkFollow = user => {
     const jwt = isAuthenticated();
     const match = user.followers.find(follower => {
-      console.log(follower._id,"xyxyyxyx",)
+      console.log(follower._id, "xyxyyxyx");
       // one id has many other ids (followers) and vice versa
       return follower._id === jwt.user._id;
     });
@@ -61,7 +62,7 @@ export class Profile extends Component {
         this.setState({ redirectToHome: true });
       } else {
         let following = this.checkFollow(data);
-        console.log("sayad",following)
+        console.log("sayad", following);
         this.setState({ user: data, following });
         // this.loadPosts(data._id);
       }
@@ -118,6 +119,10 @@ export class Profile extends Component {
           </div>
 
           <hr class="my-4" />
+          <ProfileTabs
+            followers={this.state.user.followers}
+            following={this.state.user.following}
+          />
           <p>
             It uses utility classes for typography and spacing to space content
             out within the larger container.
