@@ -40,23 +40,22 @@ export class Signin extends Component {
       password
     };
     //now call the backend api
-    signin(user)
-      .then(data => {
-        if (data.error) this.setState({ error: data.error });
-        else {
-          //authenticate
-          this.authenticate(data, () => {
-            this.setState({
-              redirectToHomePage: true
-            });
+    signin(user).then(data => {
+      if (data.error) this.setState({ error: data.error });
+      else {
+        //authenticate
+        this.authenticate(data, () => {
+          this.setState({
+            redirectToHomePage: true
           });
-        }
-        this.setState({
-          email: "",
-          password: "",
-          error: ""
         });
-      })
+      }
+      this.setState({
+        email: "",
+        password: "",
+        error: ""
+      });
+    });
   };
 
   render() {
@@ -66,7 +65,13 @@ export class Signin extends Component {
       <div className="container mt-5 mb-5">
         <div className="row">
           <div className="col-sm-4" />
-          <div className="col-sm-4 card p-4">
+          <div
+            className="col-sm-4 card p-4"
+            style={{
+              backgroundImage:
+                "url('https://apromaenergy.com/wp-content/uploads/2018/09/background-site.jpg')"
+            }}
+          >
             {" "}
             <h1>Sign In</h1>
             {/* displaying error message */}

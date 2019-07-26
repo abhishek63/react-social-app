@@ -26,9 +26,7 @@ exports.getPosts = (req, res) => {
   Post.find()
     .populate("postedBy", "_id name")
     .then(data => {
-      return res.json({
-        data
-      });
+      return res.json(data);
     });
 };
 

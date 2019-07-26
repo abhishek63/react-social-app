@@ -30,20 +30,20 @@ export class Signup extends Component {
 
     //extracting the value from state
     const { name, email, password } = this.state;
-    const nameTitle = name
-      .split(" ")
-      .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
-      .join(" ");
 
-      console.log(nameTitle)
-
-    const user = {
-      name:nameTitle,
-      email,
-      password
-    };
     //check validation
     if (this.validForm()) {
+      const nameTitle = name
+        .split(" ")
+        .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+        .join(" ");
+
+      console.log(nameTitle);
+      const user = {
+        name: nameTitle,
+        email,
+        password
+      };
       signup(user)
         .then(data => {
           if (data.error) this.setState({ error: data.error });
@@ -132,7 +132,13 @@ export class Signup extends Component {
               </div>
 
               <div class="card">
-                <div class="card-body">
+                <div
+                  class="card-body"
+                  style={{
+                    backgroundImage:
+                      "url('https://apromaenergy.com/wp-content/uploads/2018/09/background-site.jpg')"
+                  }}
+                >
                   <div class="m-sm-4">
                     <form>
                       <div class="form-group">
