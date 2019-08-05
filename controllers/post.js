@@ -114,3 +114,19 @@ exports.isPoster = (req, res, next) => {
   }
   next();
 };
+
+//get photo of post
+
+exports.postPhoto = (req, res, next) => {
+  if (req.post.photo.data) {
+    res.set(("Content-Type", req.post.photo.contentType));
+    return res.send(req.post.photo.data);
+  }
+  next();
+};
+
+//get single post
+
+exports.getSinglePost = (req, res) => {
+  return res.json(req.post);
+};

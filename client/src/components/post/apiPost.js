@@ -14,7 +14,7 @@ export const create = (userId, token, post) => {
 };
 
 
-//show all users
+//show all post
 export const showPosts = () => {
     return fetch(`/api/posts`, {
       method: "GET"
@@ -26,3 +26,16 @@ export const showPosts = () => {
         console.log(error);
       });
   };
+
+  
+export const singlePost = (postId) => {
+  return fetch(`/api/post/${postId}`, {
+    method: "GET"
+  })
+    .then(response => {
+      return response.json();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};

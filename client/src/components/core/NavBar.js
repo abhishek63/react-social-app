@@ -18,7 +18,7 @@ export class NavBar extends Component {
     return (
       <div>
         {console.log("hello", history)}
-        <nav className="navbar navbar-expand-lg navbar-dark font-weight-bold indigo">
+        <nav className="navbar navbar-expand-lg navbar-dark font-weight-bold indigo fixed-top">
           <Link className="navbar-brand" to="#">
             BeConnect
           </Link>

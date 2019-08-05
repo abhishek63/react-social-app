@@ -9,12 +9,15 @@ import People from "./components/user/People";
 import EditProfile from "./components/user/EditProfile";
 import NewPost from "./components/post/NewPost";
 import Posts from "./components/post/Posts";
+import Demo from "./components/post/Demo";
+import SinglePost from "./components/post/SinglePost";
 
 export class MainRouter extends Component {
   render() {
     return (
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/post/:postId" exact component={SinglePost} />
         <Route path="/contact" exact component={Contact} />
         <Route path="/signup" exact component={Signup} />
         <Route path="/signin" exact component={Signin} />
@@ -23,6 +26,7 @@ export class MainRouter extends Component {
         <Route path="/users" exact component={People} />
         <Route exact path="/post/create" component={NewPost} />
         <Route exact path="/posts" component={Posts} />
+        <Route exact path="/demo" component={Demo} />
 
       </Switch>
     );
