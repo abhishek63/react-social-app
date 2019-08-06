@@ -16,7 +16,7 @@ export class MainRouter extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route path="/" exact component={Posts} />
         <Route path="/post/:postId" exact component={SinglePost} />
         <Route path="/contact" exact component={Contact} />
         <Route path="/signup" exact component={Signup} />
@@ -24,7 +24,7 @@ export class MainRouter extends Component {
         <Route path="/user/:userId" exact component={Profile} />
         <Route path="/user/edit/:userId" exact component={EditProfile} />
         <Route path="/users" exact component={People} />
-        <Route exact path="/post/create" component={NewPost} />
+        <Route exact path="/post/new/create" component={NewPost} />
         <Route exact path="/posts" component={Posts} />
         <Route exact path="/demo" component={Demo} />
 

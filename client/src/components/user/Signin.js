@@ -53,7 +53,7 @@ export class Signin extends Component {
       this.setState({
         email: "",
         password: "",
-        error: ""
+        
       });
     });
   };

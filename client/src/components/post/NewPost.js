@@ -33,6 +33,7 @@ export class NewPost extends Component {
       fileSize
     });
   };
+  
 
   //handling the submission button
   handleSubmit = event => {

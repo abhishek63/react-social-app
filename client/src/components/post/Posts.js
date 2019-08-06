@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import DefaultPost from "../images/postimage.jpeg";
+import DefaultImage from "../images/avatar.png";
 import { showPosts } from "./apiPost";
 import LeftNav from "../core/LeftNav";
 
@@ -48,10 +49,10 @@ export class Posts extends Component {
                               className="float-left mr-2"
                               height="30px"
                               width="30px"
-                              onError={i =>
-                                (i.target.src = `${DefaultPost}`)
-                              }
-                              src={`${process.env.REACT_APP_API_URL}/post/photo/${post._id}`}
+                              onError={i => (i.target.src = `${DefaultImage}`)}
+                              src={`${
+                                process.env.REACT_APP_API_URL
+                              }/api/user/photo/${post.postedBy._id}`}
                               alt=""
                             />
                             <div>
@@ -65,7 +66,10 @@ export class Posts extends Component {
                         <div class="view overlay">
                           <img
                             class="card-img-top"
-                            src={DefaultPost}
+                            onError={i => (i.target.src = `${DefaultPost}`)}
+                            src={`${
+                              process.env.REACT_APP_API_URL
+                            }/api/post/photo/${post._id}`}
                             alt=""
                           />
                           <Link to={`post/${post._id}`}>

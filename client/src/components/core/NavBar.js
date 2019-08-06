@@ -54,6 +54,21 @@ export class NavBar extends Component {
                   Pepole
                 </Link>
               </li>
+              {!isAuthenticated() ? (
+                <></>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link"
+                      style={this.isActive(history, "/post/new/create")}
+                      to="/post/new/create"
+                    >
+                      Create Post
+                    </Link>
+                  </li>
+                </>
+              )}
               <li className="nav-item">
                 <Link
                   className="nav-link"
@@ -92,7 +107,10 @@ export class NavBar extends Component {
                     <li className="nav-item">
                       <Link
                         className="nav-link active"
-                        style={this.isActive(history, `/user/${isAuthenticated().user._id}`)}
+                        style={this.isActive(
+                          history,
+                          `/user/${isAuthenticated().user._id}`
+                        )}
                         to={`/user/${isAuthenticated().user._id}`}
                       >
                         Hi, {isAuthenticated().user.name}

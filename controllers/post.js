@@ -46,12 +46,12 @@ exports.createPost = (req, res) => {
     post.save((error, data) => {
       if (error) {
         return res.status(400).json({
-          Error: "Error in saving post"
+          error
         });
       }
-      res.status(200).json({
-        result: data
-      });
+      res.status(200).json(
+        post
+      );
     });
   });
 };

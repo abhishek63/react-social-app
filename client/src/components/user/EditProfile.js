@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { viewUser, update } from "./apiUser";
 import { isAuthenticated } from "../auth";
 import DefaultImage from "../images/avatar.png";
@@ -16,7 +17,8 @@ export class EditProfile extends Component {
       street: "",
       city: "",
       state: "",
-      fileSize: 0
+      fileSize: 0,
+      redirectToSamePage : false
     };
   }
 
@@ -64,14 +66,16 @@ export class EditProfile extends Component {
 
     update(userId, token, this.formData).then(data => {
       console.log("hhhh", data);
+      this.setState({
+        redirectToSamePage : true
+      })
     });
   };
 
   render() {
     const { name, email, id, street, city, state,about } = this.state;
-    const photoUrl = id
-      ? `${process.env.REACT_APP_API_URL}/api/user/photo/${id}`
-      : DefaultImage;
+    if (this.state.redirectToSamePage) return <Redirect to={`/user/${id}`} />;
+
 
     return (
       <div class="container mt-2">

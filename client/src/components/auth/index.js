@@ -15,18 +15,19 @@ export const signup = user => {
 
 export const signin = user => {
   return fetch(`/api/signin`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(user)
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
   })
-    .then(response => {
-      return response.json();
-    })
-    .catch(err => console.log(err));
+      .then(response => {
+          return response.json();
+      })
+      .catch(err => console.log(err));
 };
+
 
 export const signout = next => {
   localStorage.removeItem("token");

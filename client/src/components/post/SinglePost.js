@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import DefaultPost from "../images/postimage.jpeg";
+import DefaultImage from "../images/avatar.png";
 import { singlePost } from "./apiPost";
 
 export class SinglePost extends Component {
   constructor() {
     super();
     this.state = {
-      post:""
+      post: {
+        postedBy: {
+          _id: "",
+          name: ""
+        }
+      }
     };
   }
   componentDidMount() {
@@ -28,7 +34,7 @@ export class SinglePost extends Component {
     return (
       <div class="container">
         <div class="row">
-          <div className="col-sm-12">
+          <div className="col-sm-8">
             <div class="card m-2">
               <div class="card-header">
                 <div>
@@ -41,14 +47,14 @@ export class SinglePost extends Component {
                       className="float-left mr-2"
                       height="30px"
                       width="30px"
-                      onError={i => (i.target.src = `${DefaultPost}`)}
-                      src={`${process.env.REACT_APP_API_URL}/post/photo/${
-                        post._id
+                      onError={i => (i.target.src = `${DefaultImage}`)}
+                      src={`${process.env.REACT_APP_API_URL}/api/user/photo/${
+                        post.postedBy._id
                       }`}
                       alt=""
                     />
                     <div>
-                        {console.log(post.postedBy)}
+                      {console.log(post.postedBy)}
                       <p className="lead">{this.state.post.postedBy.name}</p>
                     </div>
                   </Link>
@@ -57,7 +63,14 @@ export class SinglePost extends Component {
               </div>
               <div class="card-body p-0">
                 <div class="view overlay">
-                  <img class="card-img-top" src={DefaultPost} alt="" />
+                  <img
+                    class="card-img-top"
+                    onError={i => (i.target.src = `${DefaultPost}`)}
+                    src={`${process.env.REACT_APP_API_URL}/api/post/photo/${
+                      post._id
+                    }`}
+                    alt=""
+                  />
                   <Link to={`post/${post._id}`}>
                     <div class="mask rgba-white-slight" />
                   </Link>
