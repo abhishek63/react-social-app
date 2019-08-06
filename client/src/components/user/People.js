@@ -33,7 +33,11 @@ export class People extends Component {
                 <div class="avatar mx-auto white">
                   <img
                     style={{ height: "100px", width: "auto" }}
-                    src={DefaultImage}
+                    onError={i =>
+                      (i.target.src = `${DefaultImage}`)
+                    }
+                    src={`${process.env.REACT_APP_API_URL}/api/user/photo/${user._id}`}
+  
                     className="rounded-circle"
                     alt={user.name}
                   />

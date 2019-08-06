@@ -97,7 +97,7 @@ export class Profile extends Component {
             <div className="col-sm-8">
               <h2>{this.state.user.name}</h2>
               <h5>{this.state.user.email}</h5>
-              <p class="lead">frontend programmer</p>
+              <p class="lead">{this.state.user.about}</p>
               {isAuthenticated().user &&
               isAuthenticated().user._id === this.state.user._id ? (
                 <div className="row">

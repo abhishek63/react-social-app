@@ -3,16 +3,19 @@ import { viewUser, update } from "./apiUser";
 import { isAuthenticated } from "../auth";
 import DefaultImage from "../images/avatar.png";
 
-
 export class EditProfile extends Component {
   constructor() {
     super();
     this.state = {
-      id:"",
+      id: "",
       name: "",
       email: "",
       photo: "",
       error: "",
+      about: "",
+      street: "",
+      city: "",
+      state: "",
       fileSize: 0
     };
   }
@@ -27,9 +30,13 @@ export class EditProfile extends Component {
     viewUser(userId, token).then(data => {
       console.log(data);
       this.setState({
-        id:data._id,
+        id: data._id,
         name: data.name,
-        email: data.email
+        email: data.email,
+        street: data.street,
+        city: data.city,
+        state: data.state,
+        about : data.about
       });
     });
   }
@@ -53,7 +60,7 @@ export class EditProfile extends Component {
     let userId = this.props.match.params.userId;
     let token = isAuthenticated().token;
 
-    console.log("hello sirji ", this.formData);
+    console.log("hello sirji ", this.formData.get("street"));
 
     update(userId, token, this.formData).then(data => {
       console.log("hhhh", data);
@@ -61,9 +68,9 @@ export class EditProfile extends Component {
   };
 
   render() {
-    const { name, email, id } = this.state;
+    const { name, email, id, street, city, state,about } = this.state;
     const photoUrl = id
-      ? `http://localhost:5000/api/user/photo/${id}`
+      ? `${process.env.REACT_APP_API_URL}/api/user/photo/${id}`
       : DefaultImage;
 
     return (
@@ -75,7 +82,11 @@ export class EditProfile extends Component {
               <div class="view view-cascade overlay">
                 <img
                   class="card-img-top"
-                  src={photoUrl}
+                  onError={i =>
+                    (i.target.src = `${DefaultImage}`)
+                  }
+                  src={`${process.env.REACT_APP_API_URL}/api/user/photo/${id}`}
+                 
                   alt="Card imagee cap"
                 />
                 <a href="#!">
@@ -91,7 +102,7 @@ export class EditProfile extends Component {
                 </h4>
                 {/* <!-- Subtitle --> */}
                 <h5 class="blue-text pb-2">
-                  <strong>Graffiti Artist</strong>
+                  <strong>{about}</strong>
                 </h5>
                 {/* <!-- Text --> */}
               </div>
@@ -143,10 +154,15 @@ export class EditProfile extends Component {
                 </div>
                 <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">
-                    Website
+                    About
                   </label>
                   <div class="col-lg-9">
-                    <input class="form-control" type="url" value="" />
+                    <input
+                      class="form-control"
+                      type="text"
+                      onChange={this.handleChange("about")}
+                      value={about}
+                    />
                   </div>
                 </div>
                 <div class="form-group row">
@@ -157,8 +173,8 @@ export class EditProfile extends Component {
                     <input
                       class="form-control"
                       type="text"
-                      value=""
-                      placeholder="Street"
+                      onChange={this.handleChange("street")}
+                      value={street}
                     />
                   </div>
                 </div>
@@ -168,21 +184,21 @@ export class EditProfile extends Component {
                     <input
                       class="form-control"
                       type="text"
-                      value=""
-                      placeholder="City"
+                      onChange={this.handleChange("city")}
+                      value={city}
                     />
                   </div>
                   <div class="col-lg-3">
                     <input
                       class="form-control"
                       type="text"
-                      value=""
-                      placeholder="State"
+                      onChange={this.handleChange("state")}
+                      value={state}
                     />
                   </div>
                 </div>
 
-                <div class="form-group row">
+                {/* <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">
                     Username
                   </label>
@@ -193,7 +209,7 @@ export class EditProfile extends Component {
                       value="jhonsanmark"
                     />
                   </div>
-                </div>
+                </div> */}
                 <div class="form-group row">
                   <label class="col-lg-3 col-form-label form-control-label">
                     Password

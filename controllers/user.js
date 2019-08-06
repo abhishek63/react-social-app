@@ -51,11 +51,13 @@ module.exports.updateUser = (req, res, next) => {
         error: "photo not updated"
       });
     }
+    console.log(fields,"nice to meet you")
     //update user
     let user = req.profile;
     user = _.extend(user, fields);
     user.updated = Date.now();
 
+    console.log("haamarra wla user",user)
     if (files.photo) {
       user.photo.data = fs.readFileSync(files.photo.path);
       user.photo.contentType = files.photo.type;

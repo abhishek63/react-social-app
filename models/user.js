@@ -28,6 +28,21 @@ const userSchema = mongoose.Schema({
     data: Buffer,
     contentType: String
   },
+  about :{
+    type : String
+  },
+  street : {
+    type : String,
+    default : "Street"
+  },
+  city : {
+    type : String,
+    default : "City"
+  },
+  state : {
+    type: String,
+    default : "State"
+  },
   updated: Date,
   following: [{ type: ObjectId, ref: "User" }],
   followers: [{ type: ObjectId, ref: "User" }]
